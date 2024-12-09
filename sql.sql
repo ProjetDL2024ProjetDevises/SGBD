@@ -1,30 +1,42 @@
-#------------------------------------------------------------
-#        Script MySQL.
-#------------------------------------------------------------
+--
+-- Base de données : `devise`
+--
 
-DROP TABLE IF EXISTS donnee;
-DROP TABLE IF EXISTS monnaie;
+-- --------------------------------------------------------
 
-#------------------------------------------------------------
-# Table: monnaie
-#------------------------------------------------------------
+--
+-- Structure de la table `donnee`
+--
 
-CREATE TABLE monnaie(
-        monnaie Varchar (25) NOT NULL
-	,CONSTRAINT monnaie_PK PRIMARY KEY (monnaie)
-)ENGINE=InnoDB;
+DROP TABLE IF EXISTS `donnee`;
+CREATE TABLE IF NOT EXISTS `donnee` (
+  `monnaie` varchar(25) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `date_change` datetime NOT NULL,
+  `taux_change` decimal(25,20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `donnee_monnaie_FK` (`monnaie`)
+) ENGINE=InnoDB AUTO_INCREMENT=19681 DEFAULT CHARSET=utf8mb3;
 
+-- --------------------------------------------------------
 
-#------------------------------------------------------------
-# Table: donnee
-#------------------------------------------------------------
+--
+-- Structure de la table `monnaie`
+--
 
-CREATE TABLE donnee(
-        monnaie     Varchar (25) NOT NULL ,
-        id          Int NOT NULL ,
-        date_change Datetime NOT NULL ,
-        taux_change Decimal (25,20) NOT NULL
-	,CONSTRAINT donnee_PK PRIMARY KEY (monnaie,id)
+DROP TABLE IF EXISTS `monnaie`;
+CREATE TABLE IF NOT EXISTS `monnaie` (
+  `monnaie` varchar(25) NOT NULL,
+  PRIMARY KEY (`monnaie`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
-	,CONSTRAINT donnee_monnaie_FK FOREIGN KEY (monnaie) REFERENCES monnaie(monnaie)
-)ENGINE=InnoDB;
+--
+-- Contraintes pour les tables déchargées
+--
+
+--
+-- Contraintes pour la table `donnee`
+--
+ALTER TABLE `donnee`
+  ADD CONSTRAINT `donnee_monnaie_FK` FOREIGN KEY (`monnaie`) REFERENCES `monnaie` (`monnaie`);
+COMMIT;
